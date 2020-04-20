@@ -1,8 +1,8 @@
 {
-    "name": "react-redux-websockets-passport",
+    "name": "Student react-redux-websockets-passport trivia app ",
     "version": "0.0.1",
     "description": "Quiz App implemented with React, Redux, Websockets and Passport",
-    "author": "ievgen11",
+    "author": "kalleja",
     "scripts": {
         "start": "cd server && npm install && node ./server.js",
         "app": "cd app && npm install && npm run app",
