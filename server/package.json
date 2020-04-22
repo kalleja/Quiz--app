@@ -2,7 +2,7 @@
     "name": "quiz-react-websockets-passport-server",
     "version": "0.0.1",
     "description": "The server part of the App",
-    "author": "ievgen11",
+    "author": "kalleja",
     "dependencies": {
         "all": "0.0.0",
         "axios": "^0.19.2",
@@ -34,5 +34,5 @@
     "devDependencies": {
         "nodemon": "^1.17.5"
     },
-    "proxy": "http://localhost:3000"
+    "proxy": "http://localhost:3025"
 }
