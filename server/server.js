@@ -2,7 +2,10 @@ const SocketServer = require("ws").Server;
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+
+const graphqlHttp = require('express-graphql');
 const gqlSchema = require("./schema/schema");
+
 const path = require("path");
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -41,8 +44,8 @@ app.use("/auth", authRoutes);
 app.use("/quizzes", quizzesRoutes);
 
 app.use("/graphql", (req, res) => {
-    graphqlHTTP({
-        schema: gqlSchema,
+    graphqlHttp({
+        schema:gqlSchema,
         graphiql: true,
        
     })(req, res);

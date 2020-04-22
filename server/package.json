@@ -1,5 +1,5 @@
 {
-    "name": "react-redux-websockets-passport-server",
+    "name": "quiz-react-websockets-passport-server",
     "version": "0.0.1",
     "description": "The server part of the App",
     "author": "ievgen11",
@@ -11,7 +11,9 @@
         "cli-progress": "^2.1.1",
         "connect-mongo": "^3.2.0",
         "express": "^4.16.2",
+        "express-graphql": "^0.9.0",
         "express-session": "^1.15.6",
+        "graphql": "^15.0.0",
         "immutable": "^3.8.2",
         "jsonwebtoken": "^8.3.0",
         "mongoose": "^5.0.2",

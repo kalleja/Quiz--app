@@ -9,27 +9,37 @@ const {
     GraphQLID,
     GraphQLInt,
     GraphQLList,
-    //GraphQLNonNull
+    GraphQLNonNull
 } = graphql;
+
+const authController = require('../routes/auth');
 
 const userType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
       id: {type: GraphQLID},
       name: {type: GraphQLString},
-      token: {type: GraphQLString},
       points: {type: GraphQLInt},
-      total_points:{type: GraphQLInt}
+      total_points:{type: GraphQLInt},
+      quizzes: {
+        type: new GraphQLList(quizType),
+        resolve(parent, args){
+            return Quiz.find({ userd: parent.id });
+        }
+    }
     }),
   });
   
 
 const quizType = new GraphQLObjectType({
-    name: 'Quiz',
+    name: 'Quizzes',
     fields: ( ) => ({
         id: { type: GraphQLID },
         name: { type: GraphQLString },
-        questions: { type: GraphQLInt },
+        questions: {type: new GraphQLList(quizType)},
+       answers:{type: new GraphQLList(GraphQLString)},
+       answer_id:{type:GraphQLInt},
+       _V:{type:GraphQLInt},               
         users: {
             type: new GraphQLList(userType),
             resolve(parent, args){
@@ -42,7 +52,7 @@ const quizType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
-        user: {
+        users: {
             type: userType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args){
@@ -59,52 +69,66 @@ const RootQuery = new GraphQLObjectType({
         quizzes: {
             type: new GraphQLList(quizType),
             resolve(parent, args){
-                return User.find({});
+                return Quiz.find({});
             }
         },
        
     }
 });
 
-/*const Mutation = new GraphQLObjectType({
+const Mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
-        addUser: {
-            type: userType,
-            args: {
-                name: { type: GraphQLString },
-                points: { type: GraphQLInt }
-            },
-            resolve(parent, args){
-                let user = new User({
-                    name: args.name,
-                    points: args.points
-                });
-                return user.save();
-            }
-        },
+      
         addQuiz: {
             type: quizType,
             args: {
                 name: { type: new GraphQLNonNull(GraphQLString) },
-                questions: { type: new GraphQLNonNull(GraphQLString) },
+                questions: { type: new GraphQLNonNull(GraphQLList(GraphQLString)) },
+                answers:{type: new GraphQLNonNull( GraphQLList(GraphQLString))},
+                answer_id:{type: new GraphQLNonNull(GraphQLString)},
                 quizId: { type: new GraphQLNonNull(GraphQLID) }
             },
             resolve(parent, args){
                 let quiz = new Quiz({
                     name: args.name,
                     questions: args.questions,
+                    answers: args.answers,
+                    answer_id: args.answer_id,
                     quizId: args.quizId
                 });
                 return quiz.save();
             }
         },
+
+
+        deleteQuiz: {
+            type: quizType,
+            description: 'Delete quiz from app.',
+            args: {
+              id: {type: new GraphQLNonNull(GraphQLID)},
+            },
+            resolve: async (parent, args, {req, res}) => {
+              try {
+                authController.checkAuth(req, res);
+                // delete quiz
+                const stat = await quiz.findById(args.id);
+                               console.log('delete result', delResult);
+                const result = await quiz.findByIdAndDelete(args.id);
+                console.log('delete result', result);
+                return result;
+              }
+              catch (err) {
+                throw new Error(err);
+              }
+            },
+          },
         
 
     }
-});*/
+});
 
 module.exports = new GraphQLSchema({
     query: RootQuery,
-    //mutation: Mutation
+    mutation: Mutation
 });
