@@ -14,17 +14,6 @@ export const getLeaderboard = () => dispatch =>
         payload: ApplicationService.getLeaderboard
     });
 
-
-
-    export const getQuizDeatilsboard = () => dispatch =>
-    dispatch({
-        type: actionTypes.GET_QUIZDEATILS.TYPE,
-        payload: ApplicationService.getQuizDeatilsboard
-    });
-
-
-
-
 export const authenticateUser = () => dispatch =>
     dispatch({
         type: actionTypes.AUTHENTICATE_USER.TYPE,
@@ -61,6 +50,5 @@ export default {
     logoutRequest,
     answerQuestionRequest,
     getLeaderboard,
-    getQuizDeatilsboard,
     authenticateUser
 };

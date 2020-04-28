@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import SignupForm from "../containers/SignupForm";
 import Header from "../containers/Header";
+import LeaderboardContainer from "../containers/Leaderboard";
 import { Theme, TopAppBarFixedAdjust, Typography } from "rmwc";
 
-export default class Signup extends Component {
+export default class Leaderboard extends Component {
     render() {
         return (
             <Theme tag="main">
@@ -12,9 +12,9 @@ export default class Signup extends Component {
                 <div className="page">
                     <div className="container">
                         <Typography use="headline4" tag="h1">
-                            Sign up
+                            Leaderboard
                         </Typography>
-                        <SignupForm />
+                        <LeaderboardContainer />
                     </div>
                 </div>
             </Theme>

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ApolloClient from 'apollo-boost';
 
 import { Provider } from "react-redux";
 import store from "./redux/store/configureStore";
@@ -14,23 +13,16 @@ import {
 
 import Homepage from "./pages/Homepage";
 import Dashboard from "./pages/Dashboard";
-import Leaderboard from "./pages/Pointsboard";
-import Compair from "./pages/Comparasion";
+import Leaderboard from "./pages/Leaderboard";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import About from "./pages/About";
 import Quiz from "./pages/Quiz";
 import Locked from "./containers/Locked";
 import App from "./containers/App";
-import { ApolloProvider } from 'react-apollo';
+
 import { RMWCProvider, ThemeProvider } from "rmwc";
 import "./styles/app.css";
-
-// apollo client setup
-const client = new ApolloClient({
-    uri: 'http://localhost:3000/graphql'
-});
-
 
 ReactDOM.render(
     <RMWCProvider>
@@ -41,12 +33,8 @@ ReactDOM.render(
                 error: "#b00020"
             }}
         >
-
-<ApolloProvider client={client}>
             <Provider store={store}>
                 <Router>
-
-                    
                     <App>
                         <Switch>
                             <Route exact path="/" component={Homepage} />
@@ -60,13 +48,6 @@ ReactDOM.render(
                                         path="/leaderboard"
                                         component={Leaderboard}
                                     />
-
-                                    <Route
-                                        exact
-                                        path="/compair"
-                                        component={Compair}
-                                    />
-
                                     <Route
                                         exact
                                         path="/dashboard"
@@ -84,7 +65,6 @@ ReactDOM.render(
                     </App>
                 </Router>
             </Provider>
-            </ApolloProvider>
         </ThemeProvider>
     </RMWCProvider>,
     document.getElementById("root")

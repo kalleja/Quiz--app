@@ -31,7 +31,7 @@ import { CircularProgress } from "@rmwc/circular-progress";
 
 import "@rmwc/circular-progress/circular-progress.css";
 
-const TIME_TO_ANSWER_QUESTION = 20;
+const TIME_TO_ANSWER_QUESTION = 10;
 
 class Quiz extends Component {
     static propTypes = {
@@ -42,12 +42,12 @@ class Quiz extends Component {
         answerQuestionRequest: PropTypes.func.isRequired,
         data: PropTypes.object,
         error: PropTypes.string,
-        //waitForUsersCount: PropTypes.number.isRequired,
+       
         isInProgress: PropTypes.bool.isRequired,
         isFinished: PropTypes.bool.isRequired,
         isUnexpectedFinished: PropTypes.bool.isRequired,
         activeQuestion: PropTypes.object,
-        activeUser: PropTypes.PropTypes.isRequired,
+        activeUsers: PropTypes.array.isRequired,
         jwtError: PropTypes.string
     };
 
@@ -153,13 +153,13 @@ class Quiz extends Component {
     render() {
         const {
             error,
-            //waitForUserCount,
+            waitForUsersCount,
             isInProgress,
             isFinished,
             isUnexpectedFinished,
             quizName,
             activeQuestion,
-            activeUser,
+            activeUsers,
             jwtError
         } = this.props;
 
@@ -221,7 +221,7 @@ class Quiz extends Component {
                                 <Typography use="headline1" tag="h1">
                                     Finished
                                 </Typography>
-                               
+                                
                             </GridCell>
                         ) : null}
                         {!isInProgress &&
@@ -233,8 +233,10 @@ class Quiz extends Component {
                                 </Typography>
                             </GridCell>
                         ) : null}
-
-                                                
+                        <GridCell span="4">
+                            
+                            {error ? <span>{error}</span> : null}
+                        </GridCell>
                         {Object.keys(activeQuestion).length &&
                         activeQuestion.question ? (
                             <GridCell span="12">
@@ -292,14 +294,14 @@ class Quiz extends Component {
                                 </List>
                             </GridCell>
                         ) : null}
-                      {activeUser.length > 0 ? (
+                        {activeUsers.length > 0 ? (
                             <GridCell span="12">
                                 <ChipSet>
-                                    {activeUser.map((activeUser, index) => (
+                                    {activeUsers.map((activeUser, index) => (
                                         <Chip
                                             key={index}
                                             selected
-                                            
+                                            leadingIcon="person"
                                         >
                                             {activeUser.name}:{" "}
                                             <b>{activeUser.points}</b>
@@ -317,13 +319,13 @@ class Quiz extends Component {
 
 const mapStateToProps = state => ({
     error: selectors.getQuizError(state),
-   // waitForUserCount: selectors.getWaitForUserCount(state),
+    //waitForUsersCount: selectors.getWaitForUsersCount(state),
     quizName: selectors.getQuizName(state),
     isInProgress: selectors.getQuizIsInProgress(state),
     isFinished: selectors.getQuizIsFinished(state),
     isUnexpectedFinished: selectors.getQuizIsUnexpectedFinished(state),
     activeQuestion: selectors.getActiveQuestion(state),
-    activeUser: selectors.getActiveUser(state),
+    activeUsers: selectors.getActiveUsers(state),
     jwtError: selectors.getJwtAuthenticatedError(state)
 });
 

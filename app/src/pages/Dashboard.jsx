@@ -3,8 +3,6 @@ import QuizList from "../containers/QuizList";
 import Header from "../containers/Header";
 import { Theme, TopAppBarFixedAdjust, Typography } from "rmwc";
 
-
-
 export default class Dashboard extends Component {
     render() {
         return (

@@ -50,14 +50,10 @@ class Header extends Component {
                                 <Link to="/leaderboard">
                                     <Button unelevated>Leaderboard</Button>
                                 </Link>
-
-                                <Link to="/comparisonboard">
-                                    <Button unelevated>Comparison</Button>
-                                </Link>
                                 &nbsp;
                                 <Button
                                     unelevated
-                                   
+                                    theme="secondary-bg on-secondary"
                                     onClick={() => {
                                         logoutAction();
                                         history.push("/");

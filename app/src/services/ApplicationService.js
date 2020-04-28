@@ -27,19 +27,6 @@ class ApplicationService {
         });
     }
 
-
-    getQuizDeatilsboard() {
-        return new Promise((resolve, reject) => {
-            return ApiService.get("/quizzes/stats")
-                .then(response => {
-                    resolve(response);
-                })
-                .catch(err => {
-                    reject(err);
-                });
-        });
-    }
-
     getUserToken() {
         return localStorage.getItem("token");
     }

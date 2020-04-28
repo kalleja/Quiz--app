@@ -36,18 +36,7 @@ const QuizListReducer = (state = initialState, action) => {
                 mutant.set("isPending", false);
                 mutant.set("data", new Map());
             });
-        //case actionTypes.SOMEONE_JOINED_QUIZ:
-       case actionTypes.ANSWER_QUESTION_REQUEST:
-            return state.withMutations(mutant => {
-                if (!mutant.getIn(["data", action.payload.quizId])) {
-                    return;
-                
-                }
-                mutant.setIn(
-                    ["data", action.payload.quizId, "user"],
-                    action.payload.user
-                );
-            });
+      
         default:
             return state;
     }

@@ -15,8 +15,8 @@ const ALLOWED_WEBSOCKET_ACTION_TYPES = [
     actionTypes.JOIN_QUIZ_WAIT,
     actionTypes.START_QUIZ_SUCCESS,
     actionTypes.FINISH_QUIZ_SUCCESS,
-   // actionTypes.SOMEONE_JOINED_QUIZ,
-   // actionTypes.SOMEONE_LEFT_QUIZ,
+    actionTypes.SOMEONE_JOINED_QUIZ,
+    actionTypes.SOMEONE_LEFT_QUIZ,
     actionTypes.INCOMING_QUESTION,
     actionTypes.ANSWER_QUESTION_SUCCESS,
     actionTypes.JWT_AUTHENTICATION_ERROR
@@ -47,7 +47,7 @@ class WebSocketService {
                     payload: action.payload
                 });
             }
-           next(action)
+            next(action);
         };
     }
 

@@ -4,8 +4,6 @@ import { Theme, TopAppBarFixedAdjust } from "rmwc";
 import { CircularProgress } from "@rmwc/circular-progress";
 import "@rmwc/circular-progress/circular-progress.css";
 
-
-
 export default class Signup extends Component {
     render() {
         return (

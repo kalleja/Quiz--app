@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import Header from "../containers/Header";
 import { Theme, TopAppBarFixedAdjust, Typography } from "rmwc";
-require('react-dom');
-window.React2 = require('react');
-console.log(window.React1 === window.React2);
 
 export default class About extends Component {
     render() {
@@ -17,7 +14,7 @@ export default class About extends Component {
                             About
                         </Typography>
                         <Typography use="body1" tag="p">
-                            This is a online exam app with public and protected links for
+                        This is a online exam app with public and protected links for
                             access control, handled by Passport on the back-end.
                             Registered student can take part in universty exams in
                             real-time remotly. All the exam

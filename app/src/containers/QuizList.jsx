@@ -40,8 +40,8 @@ class QuizList extends Component {
         this.props.getQuizList();
     }
 
-    handleQuizClick({ _id, usersCount }) {
-        if (usersCount ) {
+    handleQuizClick({ _id, usersCount, maxUsersCount }) {
+        if (usersCount >= maxUsersCount) {
             return;
         }
 
@@ -57,20 +57,20 @@ class QuizList extends Component {
                     <DataTableHead>
                         <DataTableRow>
                             <DataTableHeadCell>Name</DataTableHeadCell>
-                            
+                           
                         </DataTableRow>
                     </DataTableHead>
                     <DataTableBody>
                         {isPending ? (
                             <DataTableRow>
-                                <DataTableCell alignMiddle colSpan="1">
+                                <DataTableCell alignMiddle colSpan="2">
                                     <LinearProgress determinate={false} />
                                 </DataTableCell>
                             </DataTableRow>
                         ) : null}
                         {isError ? (
                             <DataTableRow activated>
-                                <DataTableCell alignMiddle colSpan="1">
+                                <DataTableCell alignMiddle colSpan="2">
                                     Try again later
                                 </DataTableCell>
                             </DataTableRow>
@@ -89,14 +89,13 @@ class QuizList extends Component {
                                           key={index}
                                           activated={
                                               quiz.usersCount 
-                                             
                                           }
                                       >
                                           <DataTableCell>
                                               {quiz.name}
                                           </DataTableCell>
                                           <DataTableCell alignEnd>
-                                              <Button
+                                          <Button
                                                   raised
                                                   dense
                                                   disabled={
@@ -106,8 +105,7 @@ class QuizList extends Component {
                                                       this.handleQuizClick(quiz)
                                                   }
                                               >
-                                                  {quiz.usersCount}
-                                                  
+                                                                                                  
                                                   Start the quiz
                                                  
                                               </Button>
@@ -126,7 +124,7 @@ const mapStateToProps = state => ({
     data: selectors.getQuizList(state),
     isPending: selectors.getQuizListIsPending(state),
     isError: selectors.getQuizListIsError(state),
-    userOnline: selectors.getUserOnline(state)
+    usersOnline: selectors.getUsersOnline(state)
 });
 
 const mapDispatchToProps = {

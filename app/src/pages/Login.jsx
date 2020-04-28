@@ -3,8 +3,6 @@ import LoginForm from "../containers/LoginForm";
 import Header from "../containers/Header";
 import { Theme, TopAppBarFixedAdjust, Typography } from "rmwc";
 
-
-
 export default class Login extends Component {
     render() {
         return (

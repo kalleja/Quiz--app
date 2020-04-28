@@ -20,13 +20,13 @@ const activeQuestionModel = Record({
 const StateModel = Record({
     activeQuiz: null,
     activeQuestion: activeQuestionModel(),
-    activeUser: [],
+    activeUsers: [],
     error: null,
-    //waitForUsersCount: 0,
+    
     isInProgress: false,
     isFinished: false,
     isUnexpectedFinished: false,
-    userOnline: 0
+    usersOnline: 0
 });
 
 const initialState = StateModel();
@@ -38,7 +38,7 @@ const QuizReducer = (state = initialState, action) => {
         case actionTypes.JOIN_QUIZ_REQUEST:
             return state.withMutations(mutant => {
                 mutant.set("error", null);
-                mutant.set("activeUser", []);
+                mutant.set("activeUsers", []);
                 mutant.set("activeQuestion", new Map());
                 mutant.set("isInProgress", false);
                 mutant.set("isFinished", false);
@@ -52,26 +52,23 @@ const QuizReducer = (state = initialState, action) => {
             return state.withMutations(mutant => {
                 mutant.set("activeQuiz", fromJS(action.payload));
             });
-        case actionTypes.JOIN_QUIZ_WAIT:
-            return state.withMutations(mutant => {
-                mutant.set("activeUsers", action.payload);
-            });
+       
         case actionTypes.START_QUIZ_SUCCESS:
             return state.withMutations(mutant => {
-                //mutant.set("waitForUsersCount", 0);
+                
                 mutant.set("isInProgress", true);
                 mutant.set("isFinished", false);
-                mutant.set("isUnexpectedFinished", );
-//                mutant.set("activeUsers", []);
+                mutant.set("isUnexpectedFinished", false);
+                mutant.set("activeUsers", []);
                 mutant.set("activeQuestion", new Map());
             });
         case actionTypes.FINISH_QUIZ_SUCCESS:
             return state.withMutations(mutant => {
-               // mutant.set("waitForUsersCount", 0);
+               
                 mutant.set("isInProgress", false);
                 mutant.set("isFinished", true);
                 mutant.set("activeQuestion", new Map());
-//                mutant.set("activeUsers", action.payload.activeUsers);
+                mutant.set("activeUsers", action.payload.activeUsers);
                 mutant.set(
                     "isUnexpectedFinished",
                     action.payload.isUnexpectedFinished ? true : false
@@ -86,7 +83,7 @@ const QuizReducer = (state = initialState, action) => {
                         question: questionModel(action.payload.question)
                     })
                 );
-//                mutant.set("activeUsers", action.payload.activeUsers);
+                mutant.set("activeUsers", action.payload.activeUsers);
             });
         case actionTypes.ANSWER_QUESTION_SUCCESS:
             return state.withMutations(mutant => {
