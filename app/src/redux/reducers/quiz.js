@@ -22,7 +22,7 @@ const StateModel = Record({
     activeQuestion: activeQuestionModel(),
     activeUsers: [],
     error: null,
-    
+    waitForUsersCount: 0,
     isInProgress: false,
     isFinished: false,
     isUnexpectedFinished: false,
@@ -52,10 +52,13 @@ const QuizReducer = (state = initialState, action) => {
             return state.withMutations(mutant => {
                 mutant.set("activeQuiz", fromJS(action.payload));
             });
-       
+        case actionTypes.JOIN_QUIZ_WAIT:
+            return state.withMutations(mutant => {
+                mutant.set("waitForUsersCount", action.payload);
+            });
         case actionTypes.START_QUIZ_SUCCESS:
             return state.withMutations(mutant => {
-                
+                mutant.set("waitForUsersCount", 0);
                 mutant.set("isInProgress", true);
                 mutant.set("isFinished", false);
                 mutant.set("isUnexpectedFinished", false);
@@ -64,7 +67,7 @@ const QuizReducer = (state = initialState, action) => {
             });
         case actionTypes.FINISH_QUIZ_SUCCESS:
             return state.withMutations(mutant => {
-               
+                mutant.set("waitForUsersCount", 0);
                 mutant.set("isInProgress", false);
                 mutant.set("isFinished", true);
                 mutant.set("activeQuestion", new Map());

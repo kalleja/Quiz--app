@@ -18,7 +18,7 @@ import {
     TopAppBar,
     TopAppBarRow,
     TopAppBarSection,
-    LinearProgress,
+   
     Chip,
     ChipSet,
     Dialog,
@@ -153,7 +153,7 @@ class Quiz extends Component {
     render() {
         const {
             error,
-            waitForUsersCount,
+            
             isInProgress,
             isFinished,
             isUnexpectedFinished,
@@ -221,7 +221,12 @@ class Quiz extends Component {
                                 <Typography use="headline1" tag="h1">
                                     Finished
                                 </Typography>
-                                
+                                {isUnexpectedFinished ? (
+                                    <Typography use="headline6" tag="h6">
+                                        Oh no, someone has left the quiz. You
+                                        still get to keep your points!
+                                    </Typography>
+                                ) : null}
                             </GridCell>
                         ) : null}
                         {!isInProgress &&
@@ -234,7 +239,7 @@ class Quiz extends Component {
                             </GridCell>
                         ) : null}
                         <GridCell span="4">
-                            
+                          
                             {error ? <span>{error}</span> : null}
                         </GridCell>
                         {Object.keys(activeQuestion).length &&
@@ -294,7 +299,7 @@ class Quiz extends Component {
                                 </List>
                             </GridCell>
                         ) : null}
-                        {activeUsers.length > 0 ? (
+                        {activeUsers ? (
                             <GridCell span="12">
                                 <ChipSet>
                                     {activeUsers.map((activeUser, index) => (
@@ -319,7 +324,7 @@ class Quiz extends Component {
 
 const mapStateToProps = state => ({
     error: selectors.getQuizError(state),
-    //waitForUsersCount: selectors.getWaitForUsersCount(state),
+    
     quizName: selectors.getQuizName(state),
     isInProgress: selectors.getQuizIsInProgress(state),
     isFinished: selectors.getQuizIsFinished(state),

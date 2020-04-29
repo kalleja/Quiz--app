@@ -25,8 +25,6 @@ export const RECEIVE_USERS_ONLINE = createActionType(
     [],
     "RECEIVE_USERS_ONLINE"
 );
-export const SOMEONE_JOINED_QUIZ = createActionType([], "SOMEONE_JOINED_QUIZ");
-export const SOMEONE_LEFT_QUIZ = createActionType([], "SOMEONE_LEFT_QUIZ");
 
 export const AUTHENTICATE_USER = createPromiseTypes([], "AUTHENTICATE_USER");
 export const JWT_AUTHENTICATION_ERROR = createActionType(

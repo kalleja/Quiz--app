@@ -5,7 +5,7 @@ export const getQuizListIsError = store => store.quizList.get("isError");
 export const getQuizError = store => store.quiz.get("error");
 
 
-
+    
 export const getQuizIsInProgress = store => store.quiz.get("isInProgress");
 export const getQuizIsFinished = store => store.quiz.get("isFinished");
 export const getQuizIsUnexpectedFinished = store =>
@@ -31,7 +31,7 @@ export default {
     getQuizListIsError,
     getQuizListIsPending,
     getQuizError,
-   
+ 
     getQuizIsInProgress,
     getQuizName,
     getIsAuthenticated,
