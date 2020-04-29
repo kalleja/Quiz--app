@@ -107,7 +107,6 @@ module.exports.calculateTotalPoints = (userId, callback) =>
                 $set: {
                     points: 0,
                     total_points: user.total_points + user.points
-                    
                 }
             },
             callback
@@ -129,6 +128,10 @@ module.exports.joinQuiz = (userId, quizId, callback) =>
                 return callback(err);
             }
 
-                    return callback(err, user);
+            if (user === null) {
+                return callback("Error when joining quiz");
+            }
+
+            return callback(err, user);
         }
     );

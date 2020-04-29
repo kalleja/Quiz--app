@@ -40,8 +40,8 @@ router.get("/", (req, res, next) => {
             {
                 $project: {
                     name: true,
-                    user: true,
-                   
+                    usersCount: { $size: "$users" },
+                    maxUsersCount: true
                 }
             },
             {

@@ -8,16 +8,16 @@ const ErrorRecord = Record({
 
 module.exports = data => {
     const errors = new ErrorRecord({
-        name: !Validator.isLength(String(data.name), { min: 5, max: 8 })
-            ? "Name must be between 5 and 8 characters"
+        name: !Validator.isLength(String(data.name), { min: 2, max: 20 })
+            ? "Name must be between 2 and 20 characters"
             : null,
         password: !Validator.isLength(String(data.password), {
-            min: 5,
-            max: 12
+            min: 2,
+            max: 20
         })
-            ? "Password must be between 5 and 12 characters"
+            ? "Password must be between 2 and 20 characters"
             : null
-    }); 
+    });
 
     return {
         errors: errors.toJS(),

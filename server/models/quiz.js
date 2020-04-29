@@ -10,11 +10,8 @@ const quizSchema = new Schema({
         unique: true,
         required: true
     },
-    maxUserCount: {
-        type: Number,
-        default: 1
-    },
-    user: {
+   
+    users: {
         type: Array,
         default: []
     },
@@ -35,27 +32,27 @@ module.exports.getAll = callback => Quiz.find(callback);
 module.exports.getById = (quizId, callback) =>
     Quiz.findOne({ _id: new ObjectID(quizId) }, callback);
 
-module.exports.getUser = (quizId, callback) =>
-    Quiz.findOne({ _id: new ObjectID(quizId) }, callback);
+module.exports.getUsers = (quizId, callback) =>
+    Quiz.findOne({ _id: new ObjectID(quizId) }, { users: 1 }, callback);
 
 module.exports.removeUser = (userId, callback) =>
     Quiz.findOneAndUpdate(
-        { user: { $in: [String(userId)] } },
+        { users: { $in: [String(userId)] } },
         {
             $pull: {
-                user: String(userId)
+                users: String(userId)
             }
         },
         { new: true },
         callback
     );
 
-module.exports.removeUser = (quizId, callback) =>
+module.exports.removeUsers = (quizId, callback) =>
     Quiz.findOneAndUpdate(
         { _id: new ObjectID(quizId) },
         {
             $set: {
-                user: []
+                users: []
             }
         },
         { new: true },
@@ -86,12 +83,15 @@ module.exports.addUser = (quizId, userId, callback) => {
             return callback(err);
         }
 
-      
+        if (result.users.length >= result.maxUsersCount) {
+            return callback("Quiz is full");
+        }
+
         Quiz.findOneAndUpdate(
             { _id: new ObjectID(quizId) },
             {
                 $addToSet: {
-                    user: userId
+                    users: userId
                 }
             },
             { new: true },
@@ -106,7 +106,10 @@ module.exports.getIsInProgress = (quizId, callback) => {
             return callback(err, false);
         }
 
-       
+        if (result.users.length < result.maxUsersCount) {
+            return callback(err, false, result);
+        }
+
         return callback(err, true, result);
     });
 };

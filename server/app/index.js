@@ -36,8 +36,6 @@ module.exports.answerQuestion = (
                 },
                 [userId]
             );
-
-         
         }
     );
 };
@@ -57,29 +55,9 @@ module.exports.leaveQuiz = (userId, callback) => {
                 return;
             }
 
-            /*Inform current quiz users to wait
-            Quiz.getUsers(quizData._id, (err, quiz) => {
-                if (err) {
-                    return;
-                }
+       
 
-                return callback(
-                    {
-                        type: messages.JOIN_QUIZ_WAIT,
-                        payload: quiz.maxUsersCount - quiz.users.length
-                    },
-                    quiz.users
-                );
-            });*/
-
-            /*Inform other users that a user left the quiz
-            return callback({
-                type: messages.SOMEONE_LEFT_QUIZ,
-                payload: {
-                    quizId: quizData._id,
-                    usersCount: quizData.users.length
-                }
-            });*/
+          
         });
     });
 };
@@ -100,26 +78,31 @@ module.exports.finishQuiz = (
             );
         }
 
-       
-              /*  User.calculateTotalPoints(quizId, (err, result) =>{
+        Quiz.removeUsers(quizId, (err, result) => {
+            quizData.users.forEach(userId => {
+                User.calculateTotalPoints(userId, () =>
                     User.reset(userId, err => {
-                         callback(
+                        if (err) {
+                            return callback(
                                 {
                                     type: messages.JOIN_QUIZ_REJECT,
-                                    payload: {
-                                        quizId: quizId,
-                                        usersCount: result.users.length
-                                    }
+                                    payload: err
                                 },
                                 quizData.users
-                            
-                     ) })
+                            );
+                        }
 
-                   
-                    
-                 } )*/
-                
-        
+                        callback({
+                            type: messages.SOMEONE_LEFT_QUIZ,
+                            payload: {
+                                quizId: quizId,
+                                usersCount: result.users.length
+                            }
+                        });
+                    })
+                );
+            });
+        });
 
         User.getByActiveQuizId(quizId, (err, activeUsers) => {
             callback(
@@ -178,23 +161,14 @@ module.exports.sendQuestions = (quizId, callback) => {
 
 module.exports.attemptStartQuiz = (quizId, callback) => {
     Quiz.getById(quizId, (err, quizData) => {
-        /*Wait for other players to join if necessary
-        if (quizData.users.length < quizData.maxUsersCount) {
+      
+        if (err) {
             return callback(
-                {
-                    type: messages.JOIN_QUIZ_WAIT,
-                    payload: quizData.maxUsersCount - quizData.users.length
-                },
-                quizData.users
-            );
-        }*/
-
-        callback(
             {
                 type: messages.START_QUIZ_SUCCESS
             },
             quizData.users
-        );
+        )};
 
         return this.sendQuestions(quizId, callback);
     });
@@ -234,20 +208,9 @@ module.exports.joinQuiz = (userId, quizId, callback) => {
                 [userId]
             );
 
-            /* Inform other users that user joined quiz
-            callback({
-                type: messages.SOMEONE_JOINED_QUIZ,
-                payload: {
-                    quizId: quizId,
-                    usersCount: quizData.users.length
-                }
-            });*/
+         
+        });
 
-           
-                  
-
-
-    });
         this.attemptStartQuiz(quizId, callback);
     });
-        };
+};
